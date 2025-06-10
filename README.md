@@ -1,4 +1,4 @@
-  ## Async RAG Chatbot with FastAPI, Ollama, and MySQL**
+  ## Async RAG Chatbot with FastAPI, Ollama, and MySQL
 
 This project is a fully asynchronous Retrieval-Augmented Generation (RAG) system that:
 
