@@ -63,7 +63,6 @@ async def chat_with_agent(user_input: str):
 
         if func_name == "get_documents_by_president":
             data = await get_documents_by_president(**args)
-            print(" Data fetched from DB:", data)
             # Second LLM call: ask to summarize result
             followup = await client.chat.completions.create(
                 model="llama3",
@@ -83,8 +82,7 @@ async def chat_with_agent(user_input: str):
         else:
             print("Unknown tool requested.")
     else:
-        print("🤖 No tool used. Answer from model only.")
-        print("Final Answer:(model-only):", message.content)
+        print("Final Answer:", message.content)
         return message.content
 
 # Run
