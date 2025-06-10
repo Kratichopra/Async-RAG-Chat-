@@ -1,0 +1,49 @@
+<!-- static/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Async RAG Chat</title>
+  <style>
+    body { font-family: Arial; margin: 40px; background: #f7f7f7; }
+    #chatbox { max-width: 600px; margin: auto; }
+    #messages { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; background: white; }
+    input, button { padding: 10px; margin-top: 10px; width: 100%; box-sizing: border-box; }
+  </style>
+</head>
+<body>
+  <div id="chatbox">
+    <h2>Ask AI (Async RAG)</h2>
+    <div id="messages"></div>
+    <input id="userInput" placeholder="Ask a question..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+  <script>
+    async function sendMessage() {
+      const input = document.getElementById("userInput");
+      const messages = document.getElementById("messages");
+      const question = input.value;
+      if (!question) return;
+
+      messages.innerHTML += `<div><strong>You:</strong> ${question}</div>`;
+      input.value = "";
+
+      try {
+        const response = await fetch("/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question })
+        });
+
+        const data = await response.json();
+        const answer = data.response || data.error || "No response";
+        messages.innerHTML += `<div><strong>AI:</strong> ${answer}</div>`;
+        messages.scrollTop = messages.scrollHeight;
+      } catch (e) {
+        messages.innerHTML += `<div><strong>Error:</strong> ${e.message}</div>`;
+      }
+    }
+  </script>
+</body>
+</html>
